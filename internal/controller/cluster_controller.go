@@ -37,10 +37,6 @@ type ClusterReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=cluster.x-k8s.io,resources=clusters,verbs=get;list;watch
-//+kubebuilder:rbac:groups=cluster.x-k8s.io,resources=clusters/status,verbs=get
-//+kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
-
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 //
@@ -115,10 +111,8 @@ func (r *ClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		return ctrl.Result{Requeue: true}, err
 	}
 
-	// TODO: create argocd cluster secret structure
 	// we need a `config` key that follows this structure:
 	// 		https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#clusters
-	// for our other clusters it seems we just have tlsClientConfig.caData set and insecure set
 
 	// create config structure for argocd
 	clusterConfig := ClusterConfig{
